@@ -1,0 +1,141 @@
+<section class="vh-100 gradient-custom">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                <ul class="nav nav-pills nav-justified mb-3" id="ex1" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link active" id="tab-login" data-mdb-toggle="pill" href="#pills-login" role="tab"
+                            aria-controls="pills-login" aria-selected="true">Login</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="tab-register" data-mdb-toggle="pill" href="#pills-register" role="tab"
+                            aria-controls="pills-register" aria-selected="false">Register</a>
+                    </li>
+                </ul>
+
+                <!-- Pills content -->
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="pills-login" role="tabpanel" aria-labelledby="tab-login">
+                        <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+                            <div class="text-center mb-3">
+                                <p>Sign in</p>
+                            </div>
+
+                            <!-- Email input -->
+                            <div class="form-outline mb-4">
+                                <input type="email" class="form-control" formControlName="email" [ngClass]="{ 'is-invalid': submitted && lf.email.errors }"/>
+                                <label class="form-label">Email</label>
+                                <div *ngIf="submitted && lf.email.errors" class="invalid-feedback d-block">
+                                    <div *ngIf="lf.email.errors.required">Email is required</div>
+                                </div>
+                            </div>
+
+                            <!-- Password input -->
+                            <div class="form-outline mb-4">
+                                <input type="password" class="form-control" formControlName="password" [ngClass]="{ 'is-invalid': submitted && lf.password.errors }"/>
+                                <label class="form-label">Password</label>
+                                <div *ngIf="submitted && lf.password.errors" class="invalid-feedback d-block">
+                                    <div *ngIf="lf.password.errors.required">Password is required</div>
+                                </div>
+                            </div>
+
+                            <!-- Submit button -->
+                            <button type="submit" class="btn btn-primary btn-block mb-4">Sign in</button>
+
+                        </form>
+                    </div>
+                    <div class="tab-pane fade" id="pills-register" role="tabpanel" aria-labelledby="tab-register">
+                        <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
+                            <div class="text-center mb-3">
+                                <p>Sign up</p>
+                            </div>
+
+                            <!-- Name input -->
+                            <div class="form-outline mb-4">
+                                <input type="text" formControlName="name" class="form-control" [ngClass]="{ 'is-invalid': submitted && rf.name.errors }"/>
+                                <label class="form-label">Name<span style="color: crimson;">*</span></label>
+                                <div *ngIf="submitted && rf.name.errors" class="invalid-feedback d-block">
+                                    <div *ngIf="rf.name.errors.required">Name is required</div>
+                                </div>
+                            </div>
+
+                            <!-- Contact input -->
+                            <div class="form-outline mb-4">
+                                <input type="text" formControlName="contact" class="form-control" [ngClass]="{ 'is-invalid': submitted && rf.contact.errors }"/>
+                                <label class="form-label">Contact<span style="color: crimson;">*</span></label>
+                                <div *ngIf="submitted && rf.contact.errors" class="invalid-feedback d-block">
+                                    <div *ngIf="rf.contact.errors.required">Contact is required</div>
+                                </div>
+                            </div>
+
+                            <!-- Email input -->
+                            <div class="form-outline mb-4" >
+                                <input type="email" id="email" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && rf.email.errors }"/>
+                                <label class="form-label">Email<span style="color: crimson;">*</span></label>
+                                <div *ngIf="submitted && rf.email.errors" class="invalid-feedback d-block">
+                                    <div *ngIf="rf.email.errors.required">Email is required</div>
+                                </div>
+                            </div>
+
+                            <!-- Address input -->
+                            <div class="form-outline mb-4">
+                                <input type="email" formControlName="address" class="form-control" [ngClass]="{ 'is-invalid': submitted && rf.email.errors }"/>
+                                <label class="form-label">Address<span style="color: crimson;">*</span></label>
+                                <div *ngIf="submitted && rf.address.errors" class="invalid-feedback d-block">
+                                    <div *ngIf="rf.address.errors.required">Address is required</div>
+                                </div>
+                            </div>
+
+                            <!-- Address input -->
+                            <div class="form-outline mb-4" >
+                                <label class="form-label" >Select Company<span style="color: crimson;">*</span></label>
+                                <div *ngFor="let web of websiteList" class="form-control">
+                                    <label>
+                                        <input type="checkbox" [value]="web.id"
+                                            (change)="onCheckboxChange($event)" [checked]="web.flag" />
+                                        {{web.name}}
+                                    </label>
+                                </div>
+                                <div *ngIf="isError"><span style="color: crimson;">Select at least one
+                                    Company.</span></div>
+                            </div>
+
+                            <!-- Password input -->
+                            <div class="form-outline mb-4">
+                                <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && rf.password.errors }"/>
+                                <label class="form-label">Password<span style="color: crimson;">*</span></label>
+                                <div *ngIf="submitted && rf.password.errors" class="invalid-feedback">
+                                    <div *ngIf="rf.password.errors.required">Password is required</div>
+                                    <div *ngIf="rf.password.errors.minlength">Password must be at least 8
+                                        characters</div>
+                                </div>
+                            </div>
+
+                            <!-- Repeat Password input -->
+                            <div class="form-outline mb-4">
+                                <input type="password" formControlName="cpassword" class="form-control" [ngClass]="{ 'is-invalid': submitted && rf.cpassword.errors }"/>
+                                <label class="form-label">Repeat password<span style="color: crimson;">*</span></label>
+                                <div *ngIf="submitted && rf.cpassword.errors" class="invalid-feedback">
+                                    <div *ngIf="rf.cpassword.errors.required">Confirm Password is required
+                                    </div>
+                                    <div *ngIf="rf.cpassword.errors.minlength">Confirm Password must be at
+                                        least 8 characters</div>
+                                    <div *ngIf="rf.cpassword.errors.mustMatch">Passwords and Confirm Password
+                                        must match</div>
+                                </div>
+                                <p style="margin-top: 15px;font-size: 12px;">Note- Password and confirm password should be 8 digit (includes caps, small letters, digits, and
+                                    special character)   </p>
+                            </div>
+
+                            <!-- Submit button -->
+                            <button type="submit" class="btn btn-primary btn-block mb-3">Sign in</button>
+                        </form>
+                    </div>
+                    <div class="alert alert-danger" *ngIf="error">{{error}}</div>
+                    <div class="alert alert-success"  *ngIf="success">{{success}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Pills content -->
